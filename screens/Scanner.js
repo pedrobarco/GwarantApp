@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, Text } from 'react-native';
 import { styles } from '../config/styles';
 
 import { NavigationActions } from 'react-navigation'
 import { BarCodeScanner, Permissions } from 'expo';
 
 export default class ScannerScreen extends React.Component {
+
   state = {
     hasCameraPermission: null,
   };
@@ -23,16 +25,15 @@ export default class ScannerScreen extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <View style={{ flex: 1 }}>
-          <BarCodeScanner 
-            style={StyleSheet.absoluteFill}
+        <View style={styles.flex}>
+          <BarCodeScanner
+            style={styles.flex}
             onBarCodeRead={(barcode) => {
-              //this.props.navigation.navigate('Register', {barcode:barcode});
               const resetAction = NavigationActions.reset({
                 index: 1,
                 actions: [
-                  NavigationActions.navigate({ routeName: 'Home'}),
-                  NavigationActions.navigate({ routeName: 'Register', params:{barcode:barcode}})
+                  NavigationActions.navigate({ routeName: 'Home' }),
+                  NavigationActions.navigate({ routeName: 'Register', params: { barcode: barcode } })
                 ],
                 key: null
               })
@@ -44,3 +45,7 @@ export default class ScannerScreen extends React.Component {
     }
   }
 }
+
+ScannerScreen.propTypes = {
+  navigation: PropTypes.any.isRequired
+};

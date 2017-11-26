@@ -1,43 +1,47 @@
 import { StyleSheet } from 'react-native';
+import { STATUS_BAR_HEIGHT } from '../constants';
 
 export const colors = {
-  ACCENT_COLOR: '#FF5252',
-  PRIMARY_COLOR: '#F44336',
-  DARK_PRIMARY_COLOR: '#D32F2F',
-  LIGHT_PRIMARY_COLOR: '#FFCDD2',
-  DIVIDER_COLOR: '#BDBDBD',
-  TEXT_ICONS: '#FFFFFF',
-  PRIMARY_TEXT: '#212121',
-  SECONDARY_TEXT: '#757575'
-}
+  PRIMARY_COLOR: '#f44336',
+  DARK_PRIMARY_COLOR: '#ff795d',
+  LIGHT_PRIMARY_COLOR: '#b90007',
+  TEXT_ICONS: '#ffffff'
+};
 
 export const styles = StyleSheet.create({
   button: {
-    margin: 20,
-    backgroundColor: colors.PRIMARY_COLOR
+    backgroundColor: colors.PRIMARY_COLOR,
+    margin: 10
   },
   container: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.PRIMARY_COLOR
+    backgroundColor: colors.PRIMARY_COLOR,
+    flex: 1,
+    justifyContent: 'center'
   },
   header: {
     backgroundColor: colors.PRIMARY_COLOR,
+    borderBottomWidth: 0,
     elevation: 0,
-    borderBottomWidth: 0
+    height: 56 + STATUS_BAR_HEIGHT,
+    paddingTop: STATUS_BAR_HEIGHT
   },
   flex: {
     flex: 1
   },
+  text: {
+    color: colors.TEXT_ICONS
+  },
   title: {
     color: colors.TEXT_ICONS,
     fontSize: 45,
-    marginBottom: 70
+    marginBottom: 50
   },
-  // TODO: I'm not a designer
-  text: {
-      color: colors.PRIMARY_TEXT,
-      fontSize: 15
-  }
 });
+
+export const navigationConfig = {
+  navigationOptions: {
+    headerTintColor: colors.TEXT_ICONS,
+    headerStyle: styles.header
+  }
+};

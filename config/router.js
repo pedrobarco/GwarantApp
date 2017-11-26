@@ -1,17 +1,14 @@
 import { StackNavigator } from 'react-navigation';
 
-import { styles } from './styles';
+import { navigationConfig } from './styles';
 
-import Main from '../screens/Main';
+import MainScreen from '../screens/Main';
 import ScannerScreen from '../screens/Scanner';
 import RegisterScreen from '../screens/Register';
 
 export const Stack = StackNavigator({
   Home: {
-    screen: Main,
-    navigationOptions: {
-      headerStyle: styles.header
-    }
+    screen: MainScreen,
   },
   Scanner: {
     screen: ScannerScreen,
@@ -19,4 +16,4 @@ export const Stack = StackNavigator({
   Register: {
     screen: RegisterScreen,
   },
-});
+},  navigationConfig);
