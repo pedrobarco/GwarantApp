@@ -34,5 +34,10 @@ export const styles = StyleSheet.create({
     color: colors.TEXT_ICONS,
     fontSize: 45,
     marginBottom: 70
+  },
+  // TODO: I'm not a designer
+  text: {
+      color: colors.PRIMARY_TEXT,
+      fontSize: 15
   }
 });

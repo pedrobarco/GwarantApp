@@ -7,12 +7,14 @@ export default class Main extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-      <Text style={styles.title}> Gwarant </Text> 
+      <Text style={styles.title}> Gwarant TEST </Text> 
         <Button
           large
           icon={{ name: 'fingerprint' }}
           title='REGISTER'
-          buttonStyle={styles.button} />
+          buttonStyle={styles.button} 
+          onPress={() => this.props.navigation.navigate('Scanner')} />
+          
         <Button
           large
           icon={{ name: 'cast-connected' }}
