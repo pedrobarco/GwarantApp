@@ -9,6 +9,20 @@
     "icon": "./assets/icons/app-icon.png",
     "loading": {
       "icon": "./assets/icons/loading-icon.png"
+    },
+    "ios": {
+      "bundleIdentifier": "io.ist.gwarant",
+      "publishBundlePath": "ios/gwarantapp/Supporting/shell-app.bundle",
+      "publishManifestPath": "ios/gwarantapp/Supporting/shell-app-manifest.json"
+    },
+    "android": {
+      "package": "io.ist.gwarant"
+    },
+    "isDetached": true,
+    "detach": {
+      "scheme": "exp77603a68375b47f881daf9d006b07bb9",
+      "iosExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/ios-v2.0.4-sdk22.0.0-10110e7c-e9b1-43e6-b7e0-8a0e971480e8.tar.gz",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.0.0-sdk22.0.0-7432f75c-05a1-4826-a456-02875e338222.tar.gz"
     }
   }
 }
