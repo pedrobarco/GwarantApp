@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native-elements';
-import { styles } from '../config/styles';
+import { styles } from '../../config/styles';
 
 export default class MainScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}> Gwarant TEST </Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.mainTitle}>Gwarant</Text>
+        </View>
         <Button
           large
           icon={{ name: 'fingerprint' }}

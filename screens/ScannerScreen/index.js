@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
-import { styles } from '../config/styles';
-
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
 import { BarCodeScanner, Permissions } from 'expo';
+import { styles } from '../../config/styles';
+
 
 export default class ScannerScreen extends React.Component {
 

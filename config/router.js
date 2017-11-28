@@ -2,9 +2,9 @@ import { StackNavigator } from 'react-navigation';
 
 import { navigationConfig } from './styles';
 
-import MainScreen from '../screens/Main';
-import ScannerScreen from '../screens/Scanner';
-import RegisterScreen from '../screens/Register';
+import MainScreen from '../screens/MainScreen';
+import ScannerScreen from '../screens/ScannerScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 
 export const Stack = StackNavigator({
   Home: {

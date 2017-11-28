@@ -1,5 +1,14 @@
 {
   "expo": {
-    "sdkVersion": "22.0.0"
+    "name": "GwarantApp",
+    "description": "Log in to your account and manage all your encrypted files",
+    "slug": "Gwarant",
+    "privacy": "public",
+    "sdkVersion": "22.0.0",
+    "version": "1.0.0",
+    "icon": "./assets/icons/app-icon.png",
+    "loading": {
+      "icon": "./assets/icons/loading-icon.png"
+    }
   }
 }
