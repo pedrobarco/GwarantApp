@@ -69,6 +69,10 @@ export const styles = StyleSheet.create({
   },
   registerTitle: {
     color: colors.TEXT_ICONS,
+    textAlign: 'center'
+  },
+  registerText: {
+    color: colors.TEXT_ICONS,
     marginTop: 10,
     width: 160,
     textAlign: 'center',

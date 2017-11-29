@@ -8,12 +8,14 @@ import icon from '../../assets/icons/app-icon.png';
 
 export default class RegisterScreen extends React.Component {
   render() {
+   const qr = this.props.navigation.state.params.barcode.data.split(" ")
     return (
       <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={STATUS_BAR_HEIGHT} style={styles.container}>
         <View style={styles.logoContainer}>
           <Image source={icon} style={styles.logo} />
-          <Text style={styles.registerTitle}>Gwarant needs you to verify your account</Text>
-          <RegisterForm qrcode={this.props.navigation.state.params.barcode.data}/>
+          <Text style={styles.registerTitle}>Hello {qr[0]}!</Text>
+          <Text style={styles.registerText}>Gwarant needs you to verify your account</Text>
+          <RegisterForm qrcode={qr}/>
         </View>
       </KeyboardAvoidingView>
     );
