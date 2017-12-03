@@ -33,19 +33,25 @@ RegisterForm.propTypes = {
 };
 
 function check(qrcode, password) {
-  // const crypto = require('crypto-js')
-  // const receivedhash = qrcode[1]
-  // const salt = qrcode[2]
+  const crypto = require('crypto-js')
+  const receivedhash = qrcode[1]
+  const salt = qrcode[2]
   const ip = qrcode[4]
-  // const calculatedhash = crypto.PBKDF2(password, salt, {hasher: crypto.algo.SHA256,  keySize: 256 / 32, iterations: 10000})
-  // const key = crypto.PBKDF2(password, salt, {hasher: crypto.algo.SHA256,  keySize: 256 / 24, iterations: 10000})
-  // alert(receivedhash == calculatedhash)
-  //const cryptedMessage = crypto.AES.encrypt("Message", key) // No IV { iv: iv }
+  const calculatedhash = crypto.PBKDF2(password, salt, {hasher: crypto.algo.SHA256,  keySize: 256 / 32, iterations: 10000})
+  // if (receivedhash == calculatedhash) { // TODO: Easier for testing
+  const key = crypto.PBKDF2(password, salt, {hasher: crypto.algo.SHA256,  keySize: 256 / 24, iterations: 10000}) // Not sure if keysize is correct
+  const message = "ID Smartphone" + " " + "Public Key Smartphone" // TODO: put a unique id here and the Pubkey
+  const cryptedMessage = crypto.AES.encrypt(message, key) // No IV { iv: iv }
   alert("Making connection with ws://" + ip + ':8080/')
   const ws = new WebSocket('ws://' + ip + ':8080/')
   ws.onopen = () => {
-    alert("Sent message")
-    ws.send("Message")
+    ws.send(cryptedMessage)
+    ws.onmessage = e => {
+      // Receive ack
+      // Decipher ack with KpubPC (qrcode[3])
+      // If ack is valid, add (username, KpubPC) to a database
+      alert(e.data);
+    };
   }
-  
+  // } 
 }
