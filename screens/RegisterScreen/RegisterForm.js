@@ -33,9 +33,19 @@ RegisterForm.propTypes = {
 };
 
 function check(qrcode, password) {
-  const crypto = require('crypto-js')
-  const hash = qrcode[1]
-  const salt = qrcode[2]
-  const key = crypto.PBKDF2(password, salt, {hasher: crypto.algo.SHA256,  keySize: 256 / 32, iterations: 10000})
-  alert(hash == key)
+  // const crypto = require('crypto-js')
+  // const receivedhash = qrcode[1]
+  // const salt = qrcode[2]
+  const ip = qrcode[4]
+  // const calculatedhash = crypto.PBKDF2(password, salt, {hasher: crypto.algo.SHA256,  keySize: 256 / 32, iterations: 10000})
+  // const key = crypto.PBKDF2(password, salt, {hasher: crypto.algo.SHA256,  keySize: 256 / 24, iterations: 10000})
+  // alert(receivedhash == calculatedhash)
+  //const cryptedMessage = crypto.AES.encrypt("Message", key) // No IV { iv: iv }
+  alert("Making connection with ws://" + ip + ':8080/')
+  const ws = new WebSocket('ws://' + ip + ':8080/')
+  ws.onopen = () => {
+    alert("Sent message")
+    ws.send("Message")
+  }
+  
 }
