@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AppLoading, SecureStore } from 'expo';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
-import { styles } from '../../config/styles';
+import { styles, colors } from '../../config/styles';
 
 export default class MainScreen extends React.Component {
   state = {
@@ -14,10 +14,16 @@ export default class MainScreen extends React.Component {
   render() {
     if (!this.state.isReady) {
       return (
-        <AppLoading
-          startAsync={this._manageKeysAsync}
-          onFinish={this._handleFinishLoadingAsync}
-        />
+        <View style={styles.container}>
+          <AppLoading
+            startAsync={this._manageKeysAsync}
+            onFinish={this._handleFinishLoadingAsync}
+          />
+          <ActivityIndicator
+            color={colors.TEXT_ICONS}
+            size="large"
+          />
+        </View>
       );
     }
     return (
