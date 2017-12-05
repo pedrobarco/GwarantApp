@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 /* import { SecureStore, Constants } from 'expo'; */
-import { View, TextInput, ActivityIndicator } from 'react-native';
-import { Button } from 'react-native-elements';
+import { View, TextInput, ActivityIndicator, Button } from 'react-native';
 import { colors, styles } from '../../config/styles';
 // TESTING:
 import '../../shim.js'
@@ -38,7 +37,6 @@ export default class RegisterForm extends React.Component {
           onChangeText={(password) => this.setState({ password })}
         />
         <Button
-          icon={{ name: 'phonelink-lock' }}
           title='SUBMIT'
           buttonStyle={styles.registerButton}
           onPress={() =>  testSomeStuff() /* this._check(this.props.qrcode, this.state.password) */ }

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 //import { AppLoading, SecureStore } from 'expo';
-import { View, Text, ActivityIndicator } from 'react-native';
-import { Button } from 'react-native-elements';
+import { View, Text, ActivityIndicator, Button } from 'react-native';
 import { styles, colors } from '../../config/styles';
 
 
@@ -33,15 +32,11 @@ export default class MainScreen extends React.Component {
           <Text style={styles.mainTitle}>Gwarant</Text>
         </View>
         <Button
-          large
-          icon={{ name: 'fingerprint' }}
           title='REGISTER'
           buttonStyle={styles.button}
           onPress={() => this.props.navigation.navigate('Scanner')}
         />
         <Button
-          large
-          icon={{ name: 'cast-connected' }}
           title='CONNECT'
           buttonStyle={styles.button}
           onPress={() => alert(this.state.key.pub)}
