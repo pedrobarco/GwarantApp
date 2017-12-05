@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SecureStore, Constants } from 'expo';
+/* import { SecureStore, Constants } from 'expo'; */
 import { View, TextInput, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
 import { colors, styles } from '../../config/styles';
+// TESTING:
+import '../../shim.js'
+import { RSA } from 'react-native-rsa-native';
+import RNSecureKeyStore from 'react-native-secure-key-store';
+import crypto from 'crypto'
 
 export default class RegisterForm extends React.Component {
   state = {
@@ -36,13 +41,13 @@ export default class RegisterForm extends React.Component {
           icon={{ name: 'phonelink-lock' }}
           title='SUBMIT'
           buttonStyle={styles.registerButton}
-          onPress={() => this._check(this.props.qrcode, this.state.password)}
+          onPress={() =>  testSomeStuff() /* this._check(this.props.qrcode, this.state.password) */ }
         />
       </View>
     );
   }
 
-  _check = async (qrcode, password) => {
+  /* _check = async (qrcode, password) => {
     const crypto = require('crypto-js')
     const username = qrcode[0]
     const receivedhash = qrcode[1]
@@ -78,7 +83,30 @@ export default class RegisterForm extends React.Component {
       this.setState({ isChecking: true })
       alert('Passwords do not match.')
     }
-  }
+  } */
+}
+
+function testSomeStuff() {
+  // Libs we will use:
+  // react-native-rsa-native
+  RSA.generate()
+  .then(keys => {
+    alert("react-native-rsa test: " + keys.private) // the private key
+  })
+  // react-native-secure-key-store
+  RNSecureKeyStore.set("test", "SUCESS")
+	.then(() => {
+    RNSecureKeyStore.get("test")
+    .then((res) => {
+      alert('react-native-secure-key-store test: ' + res);
+    }, (err) => {
+      alert(err);
+    });
+	}, (err) => {
+		alert(err);
+	});
+  // react-native-crypto
+  alert("react-native-crypto test: " + crypto.randomBytes(32).toString('hex'))
 }
 
 RegisterForm.propTypes = {

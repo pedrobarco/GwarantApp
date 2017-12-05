@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import { BarCodeScanner, Permissions } from 'expo';
+import Camera from 'react-native-camera';
 import { styles } from '../../config/styles';
 
 
@@ -12,37 +12,25 @@ export default class ScannerScreen extends React.Component {
     hasCameraPermission: null,
   };
 
-  async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-  }
-
   render() {
-    const { hasCameraPermission } = this.state;
-    if (hasCameraPermission === null) {
-      return <View />;
-    } else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
-    } else {
-      return (
-        <View style={styles.flex}>
-          <BarCodeScanner
-            style={styles.flex}
-            onBarCodeRead={(barcode) => {
-              const resetAction = NavigationActions.reset({
-                index: 1,
-                actions: [
-                  NavigationActions.navigate({ routeName: 'Home' }),
-                  NavigationActions.navigate({ routeName: 'Register', params: { barcode: barcode } })
-                ],
-                key: null
-              })
-              this.props.navigation.dispatch(resetAction)
-            }}>
-          </BarCodeScanner>
-        </View>
-      );
-    }
+    return (
+      <View style={styles.flex}>
+        <Camera
+          style={styles.flex}
+          onBarCodeRead={(barcode) => {
+            const resetAction = NavigationActions.reset({
+              index: 1,
+              actions: [
+                NavigationActions.navigate({ routeName: 'Home' }),
+                NavigationActions.navigate({ routeName: 'Register', params: { barcode: barcode } })
+              ],
+              key: null
+            })
+            this.props.navigation.dispatch(resetAction)
+          }}>
+        </Camera>
+      </View>
+    );
   }
 }
 

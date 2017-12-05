@@ -11,5 +11,7 @@
       "backgroundColor": "#cd201f",
       "icon": "./assets/icons/loading-icon.png"
     }
-  }
+  },
+  "name": "gwarantapp",
+  "displayName": "GwarantApp"
 }
