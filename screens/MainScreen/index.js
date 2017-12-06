@@ -1,86 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 //import { AppLoading, SecureStore } from 'expo';
-import { View, Text, ActivityIndicator, Button } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { styles, colors } from '../../config/styles';
+import { RSA } from 'react-native-rsa-native';
+import RNSecureKeyStore from 'react-native-secure-key-store';
+import crypto from 'crypto'
 
 
 export default class MainScreen extends React.Component {
   state = {
-    isReady: false,
-    key: null,
+    key: null
   };
 
+  componentWillMount() {
+    RNSecureKeyStore.get("keypub")
+      .then(keypub => {
+        RNSecureKeyStore.get("keypriv")
+          .then(keypriv => {
+            this.setState({ key: { pub: keypub, priv: keypriv } })
+          }, () => { alert('Problem retrieving keys') })
+      }, () => {
+        const deviceId = crypto.randomBytes(8).toString('hex')
+        RNSecureKeyStore.set("id", deviceId)
+          .then(() => {
+            RSA.generate()
+              .then(keys => {
+                RNSecureKeyStore.set("keypub", keys.public)
+                  .then(newkeypub => {
+                    RNSecureKeyStore.set("keypriv", keys.private)
+                      .then(newkeypriv => {
+                        this.setState({ key: { pub: newkeypub, priv: newkeypriv } })
+                      }, () => { alert('Problem storing keys') })
+                  }, err => { alert(err) })
+              })
+          }, err => alert(err))
+      });
+  }
+
   render() {
-    /* if (!this.state.isReady) {
-      return (
-        <View style={styles.container}>
-           <AppLoading
-            startAsync={this._manageKeysAsync}
-            onFinish={this._handleFinishLoadingAsync}
-          />
-          <ActivityIndicator
-            color={colors.TEXT_ICONS}
-            size="large"
-          />
-        </View>
-      );
-    } */
     return (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.mainTitle}>Gwarant</Text>
         </View>
-        <Button
-          title='REGISTER'
-          buttonStyle={styles.button}
-          onPress={() => this.props.navigation.navigate('Scanner')}
-        />
-        <Button
-          title='CONNECT'
-          buttonStyle={styles.button}
-          onPress={() => alert(this.state.key.pub)}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            color={colors.PRIMARY_COLOR}
+            title='REGISTER'
+            onPress={() => this.props.navigation.navigate('Scanner')}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            color={colors.PRIMARY_COLOR}
+            title='CONNECT'
+            onPress={() => alert(this.state.key.pub)}
+          />
+        </View>
       </View>
     );
   }
-
-  /* _manageKeysAsync = async () => {
-    let key = {
-      pub: await SecureStore.getItemAsync("key.pub"),
-      priv: await SecureStore.getItemAsync("key.priv")
-    }
-    if (key.pub == null || key.priv == null) {
-      const rsa = genKeys()
-      key = {
-        pub: rsa.getPublicString(),
-        priv: rsa.getPrivateString()
-      }
-      await SecureStore.setItemAsync("key.pub", key.pub)
-      await SecureStore.setItemAsync("key.priv", key.priv)
-    }
-  }
-
-  _handleFinishLoadingAsync = async () => {
-    this.setState({
-      isReady: true,
-      key: {
-        pub: await SecureStore.getItemAsync("key.pub"),
-        priv: await SecureStore.getItemAsync("key.priv")
-      }
-    })
-  } */
 }
 
 MainScreen.propTypes = {
   navigation: PropTypes.any.isRequired
 };
-
-/* function genKeys() {
-  const RSAKey = require('react-native-rsa')
-  const bits = 512
-  const exponent = '10001' // must be a string. This is hex string. decimal = 65537
-  let rsa = new RSAKey()
-  rsa.generate(bits, exponent)
-  return rsa
-} */

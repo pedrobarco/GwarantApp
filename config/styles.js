@@ -39,6 +39,10 @@ export const styles = StyleSheet.create({
   registerContainer: {
     padding: 20
   },
+  buttonContainer: {
+    margin: 20,
+    padding: 10
+  },
   flex: {
     flex: 1
   },

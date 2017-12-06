@@ -8,7 +8,7 @@ import icon from '../../assets/icons/app-icon.png';
 
 export default class RegisterScreen extends React.Component {
   render() {
-   const qr = this.props.navigation.state.params.barcode.data.split(" ")
+   const qr = this.props.navigation.state.params.barcode.data.split("::")
     return (
       <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={STATUS_BAR_HEIGHT} style={styles.container}>
         <View style={styles.logoContainer}>

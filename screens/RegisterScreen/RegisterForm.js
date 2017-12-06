@@ -1,32 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-/* import { SecureStore, Constants } from 'expo'; */
-import { View, TextInput, ActivityIndicator, Button } from 'react-native';
+import { View, TextInput, Button, Platform } from 'react-native';
 import { colors, styles } from '../../config/styles';
-// TESTING:
 import '../../shim.js'
-import { RSA } from 'react-native-rsa-native';
 import RNSecureKeyStore from 'react-native-secure-key-store';
 import crypto from 'crypto'
 
 export default class RegisterForm extends React.Component {
   state = {
-    isChecking: true
+    id: null,
+    key: null
   }
-
+  componentWillMount() {
+    RNSecureKeyStore.get("keypub")
+      .then(keypub => {
+        RNSecureKeyStore.get("keypriv")
+          .then(keypriv => {
+            RNSecureKeyStore.get("id")
+            .then(id => {
+            this.setState({ id:id, key: { pub: keypub, priv: keypriv } })
+            }, () => {alert ('Problem retrieving id')})
+          }, () => { alert('Problem retrieving keys') })
+      }, () => {
+        alert('Error')
+      });
+  }
   render() {
-    if (!this.state.isChecking) {
-      return (
-        <View style={styles.container}>
-          <ActivityIndicator
-            color={colors.TEXT_ICONS}
-            size="large"
-          />
-        </View>
-      );
-    }
     return (
       <View style={styles.registerContainer}>
+      <View>
         <TextInput
           placeholder="password"
           placeholderTextColor={colors.LIGHT_TEXT_ICONS}
@@ -36,75 +38,66 @@ export default class RegisterForm extends React.Component {
           style={styles.textInput}
           onChangeText={(password) => this.setState({ password })}
         />
+      </View>
+      <View style={styles.buttonContainer}>
         <Button
+          color={colors.PRIMARY_COLOR}
           title='SUBMIT'
           buttonStyle={styles.registerButton}
-          onPress={() =>  testSomeStuff() /* this._check(this.props.qrcode, this.state.password) */ }
+          onPress={() => this._check(this.props.qrcode, this.state.password)}
         />
+      </View>
       </View>
     );
   }
 
-  /* _check = async (qrcode, password) => {
-    const crypto = require('crypto-js')
+  _check = (qrcode, password) => {
+    const net = require('net')
+    const delimiter = "::"
     const username = qrcode[0]
     const receivedhash = qrcode[1]
     const salt = qrcode[2]
     const kPubPC = qrcode[3]
     const ip = qrcode[4]
-    const nonce = qrcode[5]
+    const iv = qrcode[5]
+    const nonce = (parseInt(qrcode[6], '16') + 1).toString(16)
     if (password == null) {
-      this.setState({ isChecking: true })
       alert('Password cant be empty.')
       return
     }
-    this.setState({ isChecking: false })
-    const kPubApp = await SecureStore.getItemAsync("pub.key")
-    const kPrivApp = await SecureStore.getItemAsync("priv.key")
-    const calculatedhash = crypto.PBKDF2(password, salt, { hasher: crypto.algo.SHA256, keySize: 256 / 32, iterations: 10000 })
+    const calculatedhash = crypto.pbkdf2Sync(password, salt, 10000, 32, 'sha256').toString('hex')
     if (receivedhash == calculatedhash) {
-      const key = crypto.PBKDF2(password, salt, { hasher: crypto.algo.SHA256, keySize: 3, iterations: 10000 })
-      const message = "REGISTER " + Constants.deviceName + " " + Constants.deviceId + " " + kPubApp + " " + nonce
-      const cryptedMessage = crypto.AES.encrypt(message, key.toString())
-      const ws = new WebSocket('ws://' + ip + ':1918/')
-      ws.onopen = () => {
-        ws.send(cryptedMessage.toString(crypto.enc.base64))
-        ws.onmessage = e => {
-          alert(e.data)
-          // Receive ack
-          // Decipher ack with KpubPC (qrcode[3])
-          // If ack is valid, add (username, KpubPC) to a database
-          // alert(ack[0]);
-        };
+      const key = crypto.pbkdf2Sync(password, salt, 10000, 24, 'sha256').toString('hex')
+      const cipher = crypto.createCipher('aes192', key, iv)
+      const message = "REGISTER" + delimiter + Platform.OS + Platform.Version +  delimiter + this.state.id + delimiter + this.state.key.pub.toString('hex') + delimiter + nonce
+      try {
+        let cipheredMessage = cipher.update(message, 'utf8', 'hex')
+        cipheredMessage += cipher.final('hex')
+        const client = net.createConnection(1918, ip, () => {
+          client.write(cipheredMessage)
+        });
+        client.on('data', data => {
+          const message = crypto.privateDecrypt(this.state.key.priv, data).toString('utf8').split(delimiter)
+          const command = message[0]
+          const ackNonce = message[1]
+          const expectNonce = (parseInt(qrcode[6], '16') + 1).toString(16)
+          if (command == 'ACK' && ackNonce == expectNonce) {
+            RNSecureKeyStore.set("username", username)
+            .then(() => {
+              RNSecureKeyStore.set("keyPC", kPubPC)
+              .then( () => {
+                alert('Registered')
+              }, () => {alert('Error')})
+            }, () => {alert('Error')})
+          }
+        })
+      } catch (err) {
+        alert(err)
       }
     } else {
-      this.setState({ isChecking: true })
       alert('Passwords do not match.')
     }
-  } */
-}
-
-function testSomeStuff() {
-  // Libs we will use:
-  // react-native-rsa-native
-  RSA.generate()
-  .then(keys => {
-    alert("react-native-rsa test: " + keys.private) // the private key
-  })
-  // react-native-secure-key-store
-  RNSecureKeyStore.set("test", "SUCESS")
-	.then(() => {
-    RNSecureKeyStore.get("test")
-    .then((res) => {
-      alert('react-native-secure-key-store test: ' + res);
-    }, (err) => {
-      alert(err);
-    });
-	}, (err) => {
-		alert(err);
-	});
-  // react-native-crypto
-  alert("react-native-crypto test: " + crypto.randomBytes(32).toString('hex'))
+  }
 }
 
 RegisterForm.propTypes = {

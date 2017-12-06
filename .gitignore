@@ -59,3 +59,7 @@ typings/
 
 # iOS hidden files
 .DS_Store
+
+# Android
+android/build/
+android/app/build
