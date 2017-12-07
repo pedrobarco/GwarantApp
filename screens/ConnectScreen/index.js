@@ -44,28 +44,31 @@ export default class ConnectScreen extends React.Component {
                       //console.log('Received: ' + message)
                       const data = crypto.privateDecrypt(keypriv, message).toString('utf8').split(' ')
                       //const data = message.toString('utf8').split(' ')
-                      //if (validateTimestamp(parseInt(data[0])) TODOOOOOOOOOOO
-                      const sessionKey = Buffer.from(data[1], 'hex')
-                      const timestamp = Date.now()
-                      const newMsg = timestamp + ' ' + keyFile.toString('hex')
-                      const iv = '0000000000000000'
-                      //console.log('Session key: ' + sessionKey.toString('hex'))
-                      const cipher = crypto.createCipheriv('aes192', sessionKey, iv)
-                      //console.log('Sending kfile: ' + key.toString('hex'))
-                      let encryptedMsg = cipher.update(newMsg, 'utf8', 'hex')
-                      encryptedMsg += cipher.final('hex')
-                      encryptedMsg = Buffer.from(encryptedMsg, 'hex')
-                      socket.write(encryptedMsg)
-                      // Start sending Heartbeats
-                      const timer = setInterval(() => {
+                      if (validateTimestamp(parseInt(data[0]))) {
+                        const sessionKey = Buffer.from(data[1], 'hex')
                         const timestamp = Date.now()
+                        const newMsg = timestamp + ' ' + keyFile.toString('hex')
+                        const iv = '0000000000000000'
+                        //console.log('Session key: ' + sessionKey.toString('hex'))
                         const cipher = crypto.createCipheriv('aes192', sessionKey, iv)
-                        let encryptedTimestamp = cipher.update(timestamp.toString(), 'utf8', 'hex')
-                        encryptedTimestamp += cipher.final('hex')
-                        //console.log('Sending Heartbeat')
-                        socket.write(Buffer.from(encryptedTimestamp, 'hex'))
-                      }, 5 * 1000)
-                      this.setState({heartbeatTimer: timer})
+                        //console.log('Sending kfile: ' + key.toString('hex'))
+                        let encryptedMsg = cipher.update(newMsg, 'utf8', 'hex')
+                        encryptedMsg += cipher.final('hex')
+                        encryptedMsg = Buffer.from(encryptedMsg, 'hex')
+                        socket.write(encryptedMsg)
+                        // Start sending Heartbeats
+                        const timer = setInterval(() => {
+                          const timestamp = Date.now()
+                          const cipher = crypto.createCipheriv('aes192', sessionKey, iv)
+                          let encryptedTimestamp = cipher.update(timestamp.toString(), 'utf8', 'hex')
+                          encryptedTimestamp += cipher.final('hex')
+                          //console.log('Sending Heartbeat')
+                          socket.write(Buffer.from(encryptedTimestamp, 'hex'))
+                        }, 5 * 1000)
+                        this.setState({heartbeatTimer: timer})
+                      } else {
+                        //alert('Received invalid timestamp')
+                      }
                     })
                   }).listen(8080)
                   this.setState({serverSocket: server})
@@ -73,6 +76,7 @@ export default class ConnectScreen extends React.Component {
                   // SEND UDP BROADCAST ANNOUNCEMENT
                   let ipbroadcast = ip.split(".")
                   ipbroadcast = ipbroadcast[0]+'.'+ipbroadcast[1]+'.'+ipbroadcast[2]+'.255'
+                  //const ipbroadcast = '255.255.255.255'
                   const PORT = 12345
               
                   const message = Buffer.from(ip + ' ' + id + ' ' + username)
@@ -116,6 +120,12 @@ export default class ConnectScreen extends React.Component {
       </View>
     );
   }
+}
+
+function validateTimestamp (timestamp) {
+  const currentTimestamp = Date.now()
+  const difference = currentTimestamp - timestamp
+  return difference <= 60000
 }
 
 ConnectScreen.propTypes = {

@@ -61,7 +61,7 @@ export default class RegisterForm extends React.Component {
     const kPubPC = qrcode[3]
     const ip = qrcode[4]
     const iv = qrcode[5]
-    const nonce = (parseInt(qrcode[6], '16') + 1).toString(16)
+    const nonce1 = qrcode[6]
     if (password == null) {
       alert('Password cant be empty.')
       return
@@ -70,7 +70,8 @@ export default class RegisterForm extends React.Component {
     if (receivedhash == calculatedhash) {
       const key = crypto.pbkdf2Sync(password, salt, 10000, 24, 'sha256').toString('hex')
       const cipher = crypto.createCipher('aes192', key, iv)
-      const message = "REGISTER" + delimiter + Platform.OS + Platform.Version +  delimiter + this.state.id + delimiter + this.state.key.pub.toString('hex') + delimiter + nonce
+      const nonce2 = crypto.randomBytes(8).toString('hex')
+      const message = "REGISTER" + delimiter + Platform.OS + Platform.Version +  delimiter + this.state.id + delimiter + this.state.key.pub.toString('hex') + delimiter + nonce1 + delimiter + nonce2
       try {
         let cipheredMessage = cipher.update(message, 'utf8', 'hex')
         cipheredMessage += cipher.final('hex')
@@ -84,7 +85,7 @@ export default class RegisterForm extends React.Component {
           const message = crypto.privateDecrypt(this.state.key.priv, data).toString('utf8').split(delimiter)
           const command = message[0]
           const ackNonce = message[1]
-          const expectNonce = (parseInt(qrcode[6], '16') + 1).toString(16)
+          const expectNonce = nonce2
           if (command == 'ACK' && ackNonce == expectNonce) {
             RNSecureKeyStore.set("username", username)
             .then(() => {
