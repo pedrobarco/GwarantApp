@@ -53,6 +53,7 @@
 		8AE9836C68334A93AA2EBC48 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE5D855A067E40539453E6BB /* SimpleLineIcons.ttf */; };
 		00045FFE97A8436F8999826F /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 42AF600300C343DD8CED672D /* Zocial.ttf */; };
 		9949AD18428A473BB8D88226 /* libTcpSockets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDF63FB19A1445AB70C746C /* libTcpSockets.a */; };
+		C3582078A9F0473FB648F2FC /* libUdpSockets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2CF377FB79481C866F409F /* libUdpSockets.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -303,6 +304,8 @@
 		42AF600300C343DD8CED672D /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		47D09D9BB5CA465D821F531D /* TcpSockets.xcodeproj */ = {isa = PBXFileReference; name = "TcpSockets.xcodeproj"; path = "../node_modules/react-native-tcp/ios/TcpSockets.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		6FDF63FB19A1445AB70C746C /* libTcpSockets.a */ = {isa = PBXFileReference; name = "libTcpSockets.a"; path = "libTcpSockets.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		177C09CDC7B84744ABDBD24B /* UdpSockets.xcodeproj */ = {isa = PBXFileReference; name = "UdpSockets.xcodeproj"; path = "../node_modules/react-native-udp/ios/UdpSockets.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		DC2CF377FB79481C866F409F /* libUdpSockets.a */ = {isa = PBXFileReference; name = "libUdpSockets.a"; path = "libUdpSockets.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,6 +340,7 @@
 				5C444DD3A09442C68BAE1419 /* libRNRandomBytes.a in Frameworks */,
 				0C241365035C4FA49E31744F /* libRNVectorIcons.a in Frameworks */,
 				9949AD18428A473BB8D88226 /* libTcpSockets.a in Frameworks */,
+				C3582078A9F0473FB648F2FC /* libUdpSockets.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +515,7 @@
 				A07E167ADCED4CD9A00C036E /* RNRandomBytes.xcodeproj */,
 				D1BEC12E504F48FFB4C18802 /* RNVectorIcons.xcodeproj */,
 				47D09D9BB5CA465D821F531D /* TcpSockets.xcodeproj */,
+				177C09CDC7B84744ABDBD24B /* UdpSockets.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1095,6 +1100,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1104,6 +1110,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-randombytes",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 				);
 			};
 			name = Debug;
@@ -1130,6 +1137,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1139,6 +1147,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-randombytes",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 				);
 			};
 			name = Release;
@@ -1166,6 +1175,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-randombytes",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 				);
 			};
 			name = Debug;
@@ -1192,6 +1202,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-randombytes",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 				);
 			};
 			name = Release;
@@ -1227,6 +1238,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1236,6 +1248,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-randombytes",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 				);
 			};
 			name = Debug;
@@ -1271,6 +1284,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1280,6 +1294,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-randombytes",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-udp\ios/**",
 				);
 			};
 			name = Release;
@@ -1310,6 +1325,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1334,6 +1350,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

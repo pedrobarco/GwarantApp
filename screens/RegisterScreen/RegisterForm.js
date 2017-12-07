@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavigationActions } from 'react-navigation';
 import { View, TextInput, Button, Platform } from 'react-native';
 import { colors, styles } from '../../config/styles';
 import '../../shim.js'
@@ -76,6 +77,9 @@ export default class RegisterForm extends React.Component {
         const client = net.createConnection(1918, ip, () => {
           client.write(cipheredMessage)
         });
+        client.on('error', error => {
+          //alert(error)
+        })
         client.on('data', data => {
           const message = crypto.privateDecrypt(this.state.key.priv, data).toString('utf8').split(delimiter)
           const command = message[0]
@@ -86,7 +90,11 @@ export default class RegisterForm extends React.Component {
             .then(() => {
               RNSecureKeyStore.set("keyPC", kPubPC)
               .then( () => {
-                alert('Registered')
+                RNSecureKeyStore.set("keyFile", key)
+                .then( () => {
+                  alert('Registered')
+                  this.props.navigation.dispatch(NavigationActions.back())
+                }, () => {alert('Error')})
               }, () => {alert('Error')})
             }, () => {alert('Error')})
           }
@@ -101,5 +109,6 @@ export default class RegisterForm extends React.Component {
 }
 
 RegisterForm.propTypes = {
+  navigation: PropTypes.any.isRequired,
   qrcode: PropTypes.array.isRequired
 };

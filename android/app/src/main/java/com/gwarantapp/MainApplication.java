@@ -3,7 +3,9 @@ package com.gwarantapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.tradle.react.UdpSocketsModule;
 import com.peel.react.TcpSocketsModule;
+import com.pusherman.networkinfo.RNNetworkInfoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
 import com.reactlibrary.securekeystore.RNSecureKeyStorePackage;
@@ -29,7 +31,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new UdpSocketsModule(),
             new TcpSocketsModule(),
+			new RNNetworkInfoPackage(),
             new VectorIconsPackage(),
             new RandomBytesPackage(),
             new RNSecureKeyStorePackage(),

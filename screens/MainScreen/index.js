@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//import { AppLoading, SecureStore } from 'expo';
 import { View, Text, Button } from 'react-native';
 import { styles, colors } from '../../config/styles';
 import { RSA } from 'react-native-rsa-native';
@@ -55,8 +54,16 @@ export default class MainScreen extends React.Component {
           <Button
             color={colors.PRIMARY_COLOR}
             title='CONNECT'
-            onPress={() => alert(this.state.key.pub)}
-          />
+            onPress={() => {
+              RNSecureKeyStore.get("username")
+              .then(username => {
+                if (username != null) {
+                  this.props.navigation.navigate('Connect')
+                } else {
+                  alert('You must register first')
+                }
+              }, err => { alert('You must register first') })}
+              }/>
         </View>
       </View>
     );

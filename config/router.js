@@ -5,6 +5,7 @@ import { navigationConfig } from './styles';
 import MainScreen from '../screens/MainScreen';
 import ScannerScreen from '../screens/ScannerScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import ConnectScreen from '../screens/ConnectScreen';
 
 export const Stack = StackNavigator({
   Home: {
@@ -16,4 +17,7 @@ export const Stack = StackNavigator({
   Register: {
     screen: RegisterScreen,
   },
+  Connect: {
+    screen: ConnectScreen,
+  }
 },  navigationConfig);
